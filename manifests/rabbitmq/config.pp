@@ -31,7 +31,6 @@ class sensu::rabbitmq::config {
         group   => 'sensu',
         mode    => '0444',
         require => File['/etc/sensu/ssl'],
-        before  => Sensu_rabbitmq_config[$::fqdn],
       }
 
       $ssl_cert_chain = '/etc/sensu/ssl/cert.pem'
@@ -47,7 +46,6 @@ class sensu::rabbitmq::config {
         group   => 'sensu',
         mode    => '0440',
         require => File['/etc/sensu/ssl'],
-        before  => Sensu_rabbitmq_config[$::fqdn],
       }
 
       $ssl_private_key = '/etc/sensu/ssl/key.pem'
