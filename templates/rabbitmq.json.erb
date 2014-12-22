@@ -7,7 +7,7 @@
       "port": <%= @rabbitmq_port %>,
       "user": "<%= @rabbitmq_user %>"
     }<%count = 1 
-        while !@rabbitmq_host[count].empty? do -%>,
+        while !@rabbitmq_host[count].nil? do -%>,
     {
       "host": "<%= @rabbitmq_host[count] %>",
       "password": "<%= @rabbitmq_password %>",
