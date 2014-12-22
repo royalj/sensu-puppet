@@ -7,8 +7,8 @@
       "vhost": "<%= @rabbitmq_vhost %>",
       "port": <%= @rabbitmq_port %>,
       "user": "<%= @rabbitmq_user %>"
-    }<% while @rabbitmq_host[count].exists? do { -%>
-    ,
+    }<%count = 1 
+        while @rabbitmq_host[count].exists? do { -%>,
     {
       "host": "<%= @rabbitmq_host[count] %>",
       "password": "<%= @rabbitmq_password %>",
