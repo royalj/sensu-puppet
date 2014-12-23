@@ -102,6 +102,11 @@
 #     If the value starts with 'puppet://' the file will be copied and used.  Absolute paths will just be used
 #   Default: undef
 #
+# [*rabbitmq_config*]
+#   Array of hashes. Used to define multiple instances of rabbitmq to support rabbitmq failover.
+#     Valid keys are the rabbitmq parameters listed above.
+#   Default: undef
+#
 # [*redis_host*]
 #   String.  Hostname of redis to be used by sensu
 #   Default: localhost
@@ -207,6 +212,7 @@ class sensu (
   $rabbitmq_ssl             = false,
   $rabbitmq_ssl_private_key = undef,
   $rabbitmq_ssl_cert_chain  = undef,
+  $rabbitmq_config          = undef,
   $redis_host               = 'localhost',
   $redis_port               = 6379,
   $api_bind                 = '0.0.0.0',

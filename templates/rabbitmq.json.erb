@@ -1,20 +1,18 @@
 {
   "rabbitmq":[
+ <% count = 0 
+    while !@rabbitmq_config[count].nil? do |x| %>
     {
-      "host": "<%= @rabbitmq_host[0] %>",
-      "password": "<%= @rabbitmq_password %>",
-      "vhost": "<%= @rabbitmq_vhost %>",
-      "port": <%= @rabbitmq_port %>,
-      "user": "<%= @rabbitmq_user %>"
-    }<%count = 1 
-        while !@rabbitmq_host[count].nil? do -%>,
-    {
-      "host": "<%= @rabbitmq_host[count] %>",
-      "password": "<%= @rabbitmq_password %>",
-      "vhost": "<%= @rabbitmq_vhost %>",
-      "port": <%= @rabbitmq_port %>,
-      "user": "<%= @rabbitmq_user %>"
-      <% count += 1 %>
-    }<% end -%>
+      "host": "<%= x[rabbitmq_host] %>,
+      "password": "<%= x[rabbitmq_password] %>",
+      "vhost": "<%= x[rabbitmq_vhost] %>",
+      "port": "<%= x[rabbitmq_port] %>",
+      "user": "<%= x[rabbitmq_user] %>",
+      <% if !x[rabbitmq_ssl_cert_chain].nil? && !x[rabbitmq_ssl_private_key].nil? %>
+      "ssl": {
+        "cert_chain_file": "<%= x[rabbitmq_ssl_cert_chain] %>,
+        "private_key_file": "<%= x[rabbitmq_ssl_private_key] %>
+      } <% end %>
+     }<% unless @rabbitmq_config[count] = @rabbitmq_config.length -1 %>,<% end %>
   ]
 }
