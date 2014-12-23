@@ -3,15 +3,15 @@
  <% count = 0 %> 
  <% while !@rabbitmq_config[count].nil? do %>
     {
-      "host": "<%= @rabbitmq_config[count][rabbitmq_host] %>,
-      "password": "<%= @rabbitmq_config[count][rabbitmq_password] %>",
-      "vhost": "<%= @rabbitmq_config[count][rabbitmq_vhost] %>",
-      "port": "<%= @rabbitmq_config[count][rabbitmq_port] %>",
-      "user": "<%= @rabbitmq_config[count][rabbitmq_user] %>",
-      <% if !@rabbitmq_config[count][rabbitmq_ssl_cert_chain].nil? && !@rabbitmq_config[count][rabbitmq_ssl_private_key].nil? %>
+      "host": "<%= @rabbitmq_config[count]['rabbitmq_host'] %>",
+      "password": "<%= @rabbitmq_config[count]['rabbitmq_password'] %>",
+      "vhost": "<%= @rabbitmq_config[count]['rabbitmq_vhost'] %>",
+      "port": "<%= @rabbitmq_config[count]['rabbitmq_port'] %>",
+      "user": "<%= @rabbitmq_config[count]['rabbitmq_user'] %>",
+      <% if !@rabbitmq_config[count]['rabbitmq_ssl_cert_chain'].nil? && !@rabbitmq_config[count]['rabbitmq_ssl_private_key'].nil? %>
       "ssl": {
-        "cert_chain_file": "<%= @rabbitmq_config[count][rabbitmq_ssl_cert_chain] %>,
-        "private_key_file": "<%= @rabbitmq_config[count][rabbitmq_ssl_private_key] %>
+        "cert_chain_file": "<%= @rabbitmq_config[count]['rabbitmq_ssl_cert_chain'] %>",
+        "private_key_file": "<%= @rabbitmq_config[count]['rabbitmq_ssl_private_key'] %>"
       } <% end %>
      }<% unless @rabbitmq_config[count] == @rabbitmq_config[count].last %>,<% end %>
      <% count += 1 %>
