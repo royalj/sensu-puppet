@@ -1,7 +1,7 @@
 {
   "rabbitmq":[
- <% count = 0 
-    while !@rabbitmq_config[count].nil? do |x| %>
+ <% count = 0 %> 
+ <% while !@rabbitmq_config[count].nil? do |x| %>
     {
       "host": "<%= x[rabbitmq_host] %>,
       "password": "<%= x[rabbitmq_password] %>",
