@@ -13,7 +13,7 @@
         "private_key_file": "<%= @rabbitmq_config[count]['rabbitmq_ssl_private_key'] %>"
       } 
 <% end -%>
-    }<% unless x == @rabbitmq_config.last -%>,<% end -%>
-<% end -%>
+    }<% unless x == @rabbitmq_config.last -%>,<% end %>
+<% end %>
   ]
 }
