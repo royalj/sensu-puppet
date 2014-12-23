@@ -13,7 +13,7 @@
         "cert_chain_file": "<%= @rabbitmq_config[count]['rabbitmq_ssl_cert_chain'] %>",
         "private_key_file": "<%= @rabbitmq_config[count]['rabbitmq_ssl_private_key'] %>"
       } <% end %>
-     }<% unless @rabbitmq_config[count] == @rabbitmq_config[count].last %>,<% end %>
+     }<% unless @rabbitmq_config[count] == @rabbitmq_config.last %>,<% end %>
      <% count += 1 %>
      <% end -%>
   ]
