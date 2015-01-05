@@ -1,3 +1,29 @@
+# This template supports declaring multiple RabbitMQ connections via Puppet to provide failover. 
+# 
+# To use this method you must provide the rabbitmq_config parameter in puppet. This parameter is
+# an array of hashes which contains the information for the RabbitMQ nodes. If rabbitmq_config
+# is not defined then the rabbitmq.json file will be generated using the type/provider approach.
+#
+# Example of rabbitmq_config:
+# rabbitmq_config => [
+#   {
+#     'rabbitmq_password' => 'secret',
+#     'rabbitmq_user' => 'sensu',
+#     'rabbitmq_host' => 'rabbitmq1.example.com',
+#     'rabbitmq_port' => 5672,
+#     'rabbitmq_vhost' => 'sensu',
+#     'rabbitmq_ssl_cert_chain => '/etc/sensu/ssl/cert.pem',
+#     'rabbitmq_ssl_private_key' => '/etc/sensu/ssl/key.pem'
+#   },
+#   {
+#     'rabbitmq_password' => 'very_secret',
+#     'rabbitmq_user' => 'sensu',
+#     'rabbitmq_host' => 'rabbitmq2.example.com',
+#     'rabbitmq_port' => 5672,
+#     'rabbitmq_vhost' => 'sensu'
+#   }
+# ],
+
 {
   "rabbitmq":[ 
 <% @rabbitmq_config.each do |x| -%>
@@ -9,8 +35,8 @@
       "user": "<%= x['rabbitmq_user'] %>",
 <% unless x['rabbitmq_ssl_cert_chain'].nil? && x['rabbitmq_ssl_private_key'].nil? -%>
       "ssl": {
-        "cert_chain_file": "<%= @rabbitmq_config[count]['rabbitmq_ssl_cert_chain'] %>",
-        "private_key_file": "<%= @rabbitmq_config[count]['rabbitmq_ssl_private_key'] %>"
+        "cert_chain_file": "<%= x['rabbitmq_ssl_cert_chain'] %>",
+        "private_key_file": "<%= x['rabbitmq_ssl_private_key'] %>"
       } 
 <% end -%>
     }<% unless x == @rabbitmq_config.last -%>,<% end %>
