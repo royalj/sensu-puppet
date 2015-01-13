@@ -6,6 +6,9 @@
       "port": <%= x['rabbitmq_port'] %>,
       "password": "<%= x['rabbitmq_password'] %>",
       "user": "<%= x['rabbitmq_user'] %>",
+<% if x['rabbitmq_ssl'] -%>
+      "ssl": true,
+<% end -%>
 <% unless x['rabbitmq_ssl_cert_chain'].nil? && x['rabbitmq_ssl_private_key'].nil? -%>
       "ssl": {
         "cert_chain_file": "<%= x['rabbitmq_ssl_cert_chain'] %>",
