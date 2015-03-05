@@ -17,6 +17,7 @@ describe 'sensu' do
       it { should contain_file('/etc/sensu/config.json').with_ensure('absent') }
       it { should contain_user('sensu') }
       it { should contain_group('sensu') }
+      it { should contain_file('/etc/sensu/plugins').with_purge(false) }
     end
 
     context 'setting version' do
@@ -33,6 +34,18 @@ describe 'sensu' do
         :ensure   => 'installed',
         :provider => 'gem'
       ) }
+    end
+
+    context 'embeded_ruby' do
+      let(:params) { { :use_embedded_ruby => true } }
+
+      it { should contain_package('sensu-plugin').with(:provider => 'sensu_gem') }
+    end
+
+    context 'sensu_plugin_provider and sensu_plugin_name' do
+      let(:params) { { :sensu_plugin_name => 'rubygem-sensu-plugin', :sensu_plugin_provider => 'rpm' } }
+
+      it { should contain_package('rubygem-sensu-plugin').with(:provider => 'rpm') }
     end
 
     context 'repos' do
@@ -134,6 +147,15 @@ describe 'sensu' do
       [ '/etc/sensu/conf.d', '/etc/sensu/conf.d/handlers', '/etc/sensu/conf.d/checks' ].each do |dir|
         it { should contain_file(dir).with(
           :ensure  => 'directory',
+          :purge   => true,
+          :recurse => true,
+          :force   => true
+        ) }
+      end
+
+      context 'purge_plugins_dir' do
+        let(:params) { { :purge_plugins_dir => true } }
+        it { should contain_file('/etc/sensu/plugins').with(
           :purge   => true,
           :recurse => true,
           :force   => true

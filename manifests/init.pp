@@ -9,6 +9,14 @@
 #   Default: latest
 #   Valid values: absent, installed, latest, present, [\d\.\-]+
 #
+# [*sensu_plugin_name*]
+#   String.  Name of the sensu-plugin package
+#   Default: sensu-plugin
+#
+# [*sensu_plugin_provider*]
+#   String.  Provider used to install the sensu-plugin package
+#   Default: undef
+#
 # [*sensu_plugin_version*]
 #   String.  Version of the sensu-plugin gem to install
 #   Default: absent
@@ -62,7 +70,7 @@
 #   Valid values: true, false
 #
 # [*manage_plugins_dir*]
-#   Boolean. Manage the sensu plusing directory
+#   Boolean. Manage the sensu plugins directory
 #   Default: true
 #   Valid values: true, false
 #
@@ -115,6 +123,10 @@
 #   Integer.  Redis port to be used by sensu
 #   Default: 6379
 #
+# [*redis_password*]
+#   String.  Password to be used to connect to Redis
+#   Default: undef
+#
 # [*api_bind*]
 #   String.  IP to bind api service
 #   Default: 0.0.0.0
@@ -131,7 +143,7 @@
 #   Default: undef
 #
 # [*api_password*]
-#   Integer. Password of the sensu api service
+#   String. Password of the sensu api service
 #   Default: undef
 #
 # [*subscriptions*]
@@ -192,6 +204,8 @@
 #
 class sensu (
   $version                  = 'latest',
+  $sensu_plugin_name        = 'sensu-plugin',
+  $sensu_plugin_provider    = undef,
   $sensu_plugin_version     = 'absent',
   $install_repo             = true,
   $repo                     = 'main',
@@ -215,6 +229,7 @@ class sensu (
   $rabbitmq_config          = undef,
   $redis_host               = 'localhost',
   $redis_port               = 6379,
+  $redis_password           = undef,
   $api_bind                 = '0.0.0.0',
   $api_host                 = 'localhost',
   $api_port                 = 4567,
@@ -230,6 +245,7 @@ class sensu (
   $plugins                  = [],
   $plugins_dir              = undef,
   $purge_config             = false,
+  $purge_plugins_dir        = false,
   $use_embedded_ruby        = false,
   $rubyopt                  = '',
   $gem_path                 = '',
@@ -241,7 +257,7 @@ class sensu (
 
   validate_re($repo, ['^main$', '^unstable$'], "Repo must be 'main' or 'unstable'.  Found: ${repo}")
   validate_re($version, ['^absent$', '^installed$', '^latest$', '^present$', '^[\d\.\-]+$'], "Invalid package version: ${version}")
-  validate_re($sensu_plugin_version, ['^absent$', '^installed$', '^latest$', '^present$', '^[\d\.\-]+$'], "Invalid sensu-plugin package version: ${sensu_plugin_version}")
+  validate_re($sensu_plugin_version, ['^absent$', '^installed$', '^latest$', '^present$', '^\d[\d\.\-\w]+$'], "Invalid sensu-plugin package version: ${sensu_plugin_version}")
   validate_re($log_level, ['^debug$', '^info$', '^warn$', '^error$', '^fatal$'] )
   if !is_integer($rabbitmq_port) { fail('rabbitmq_port must be an integer') }
   if !is_integer($redis_port) { fail('redis_port must be an integer') }

@@ -1,4 +1,4 @@
-Puppet::Type.newtype(:sensu_redis_config) do
+Puppet::Type.newtype(:sensu_extension) do
   @doc = ""
 
   def initialize(*args)
@@ -28,23 +28,12 @@ Puppet::Type.newtype(:sensu_redis_config) do
 
   newparam(:base_path) do
     desc "The base path to the client config file"
-    defaultto '/etc/sensu/conf.d/'
+    defaultto '/etc/sensu/conf.d/extensions/'
   end
 
-  newproperty(:port) do
-    desc "The port that Redis is listening on"
-
-    defaultto '6379'
-  end
-
-  newproperty(:host) do
-    desc "The hostname that Redis is listening on"
-
-    defaultto 'localhost'
-  end
-
-  newproperty(:password) do
-    desc "The password used to connect to Redis"
+  newproperty(:config) do
+    desc "The configuration for this extension"
+    defaultto {}
   end
 
   autorequire(:package) do
