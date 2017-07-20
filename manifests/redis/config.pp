@@ -25,7 +25,6 @@ class sensu::redis::config {
     ensure   => $ensure,
     host     => $sensu::redis_host,
     port     => $sensu::redis_port,
-    password => $sensu::redis_password,
   }
 
 }

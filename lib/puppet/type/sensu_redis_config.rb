@@ -43,10 +43,6 @@ Puppet::Type.newtype(:sensu_redis_config) do
     defaultto 'localhost'
   end
 
-  newproperty(:password) do
-    desc "The password used to connect to Redis"
-  end
-
   autorequire(:package) do
     ['sensu']
   end
